@@ -3,25 +3,27 @@ node {
 
     checkout scm
 
-    // pull dependencies from npm
-    sh 'npm install'
+    nodejs('NodeJS 11.0.0') {
+        // pull dependencies from npm
+        sh 'npm install'
 
-    // stash code & dependencies to expedite subsequent testing
-    // and ensure same code & dependencies are used throughout the pipeline
-    // stash is a temporary archive
-    stash name: 'everything', 
-          excludes: 'test-results/**', 
-          includes: '**'
-    
-    // test with PhantomJS for "fast" "generic" results
-    // on windows use: bat 'npm run test-single-run -- --browsers PhantomJS'
-    // sh 'npm run test-single-run -- --browsers PhantomJS'
-    stage 'Test'
-    sh 'npm test'
-    
-    // archive karma test results (karma is configured to export junit xml files)
-    // step([$class: 'JUnitResultArchiver', 
-    //      testResults: 'test-results/**/test-results.xml'])
+        // stash code & dependencies to expedite subsequent testing
+        // and ensure same code & dependencies are used throughout the pipeline
+        // stash is a temporary archive
+        stash name: 'everything', 
+              excludes: 'test-results/**', 
+              includes: '**'
+        
+        // test with PhantomJS for "fast" "generic" results
+        // on windows use: bat 'npm run test-single-run -- --browsers PhantomJS'
+        // sh 'npm run test-single-run -- --browsers PhantomJS'
+        stage 'Test'
+        sh 'npm test'
+        
+        // archive karma test results (karma is configured to export junit xml files)
+        // step([$class: 'JUnitResultArchiver', 
+        //      testResults: 'test-results/**/test-results.xml'])
+    }
           
 }
 
