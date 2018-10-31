@@ -1,0 +1,22 @@
+{
+  "name": "christmaseve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wallaby.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "ts-node node_modules/jasmine/bin/jasmine \"test/**/*Test.ts\""
+  },
+  "author": "eliasnorrby",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jasmine": "^2.8.9",
+    "jasmine": "^3.3.0",
+    "ts-node": "^7.0.1"
+  },
+  "dependencies": {
+    "typescript": "^3.1.1"
+  }
+}
