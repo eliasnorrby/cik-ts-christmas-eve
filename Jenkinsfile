@@ -1,7 +1,9 @@
 node {
     //currentBuild.displayName="${JOB_NAME}-${BUILD_NUMBER}"
     def display_name = "${JOB_NAME}-${BUILD_NUMBER}"
-    display_name.replace("%2F", "-")
+    sh "echo initial display name: ${display_name}"
+    display_name = display_name.replace("%2F", "-")
+    sh "echo display name after replace: ${display_name}"
     slackSend color: 'good', message: "${display_name} : Build Started"
     stage('Checkout') {
         slackSend color: 'good', message: "${display_name} : Checking out source code"
