@@ -1,7 +1,7 @@
 node {
-    slackSend color: 'good', message: 'Build Started'
+    slackSend color: 'good', message: '${JOB_NAME}-${BUILD_NUMBER} : Build Started'
     stage('Checkout') {
-        slackSend color: 'good', message: 'Checking out source code'
+        slackSend color: 'good', message: '${JOB_NAME}-${BUILD_NUMBER} : Checking out source code'
         checkout scm
     }
 
@@ -23,11 +23,11 @@ node {
         }
         
     // } 
-    if (currentBuild.result == 'SUCCESS') {
-        slackSend color: 'good', message: 'Build successful: ${JOB_NAME}-${BUILD_NUMBER}'
+    if (hudson.model.Result.SUCCESS.equals(currentBuild.result)) {
+        slackSend color: 'good', message: 'Build SUCCESS: ${JOB_NAME}-${BUILD_NUMBER}'
     } 
-    if (currentBuild.result == 'FAILURE') {
-        slackSend color: 'danger', message: 'Build failure: ${JOB_NAME}-${BUILD_NUMBER}'
+    if (hudson.model.Result.SUCCESS.equals(currentBuild.result)) {
+        slackSend color: 'danger', message: 'Build FAILURE: ${JOB_NAME}-${BUILD_NUMBER}'
     }
 }
 
