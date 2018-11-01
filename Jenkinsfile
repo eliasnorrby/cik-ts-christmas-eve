@@ -1,7 +1,13 @@
 node {
-    slackSend color: 'good', message: "${JOB_NAME}-${BUILD_NUMBER} : Build Started"
+    //currentBuild.displayName="${JOB_NAME}-${BUILD_NUMBER}"
+    slackSend message: "=== === === New build started === === ==="
+    def display_name = "${JOB_NAME}-${BUILD_NUMBER}"
+    sh "echo initial display name: ${display_name}"
+    display_name = display_name.replace("%2F", "-")
+    sh "echo display name after replace: ${display_name}"
+    slackSend color: 'good', message: "${display_name} : Build Started"
     stage('Checkout') {
-        slackSend color: 'good', message: "${JOB_NAME}-${BUILD_NUMBER} : Checking out source code"
+        slackSend color: 'good', message: "${display_name} : Checking out source code"
         checkout scm
     }
 
@@ -19,15 +25,20 @@ node {
         //       includes: '**'
     
         stage('Test') {
-            sh 'npm test'
+            try {
+                sh 'npm test'
+            } catch (err) {
+                currentBuild.result='FAILURE'
+            }
         }
         
     // } 
-    if (resultIsBetterOrEqualTo('SUCCESS')) {
-        slackSend color: 'good', message: "Build SUCCESS: ${JOB_NAME}-${BUILD_NUMBER}"
+    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+        slackSend color: 'good', message: "${display_name} : Build SUCCESS"
     } else {
-        slackSend color: 'danger', message: "Build FAILURE: ${JOB_NAME}-${BUILD_NUMBER}"
+        slackSend color: 'danger', message: "${display_name} : Build FAILURE"
     }
+    slackSend message: "=== === === Build finished === === ==="
 }
 
 
