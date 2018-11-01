@@ -1,8 +1,10 @@
 node {
-    currentBuild.displayName="${JOB_NAME}-${BUILD_NUMBER}"
-    slackSend color: 'good', message: "${BUILD_DISPLAY_NAME} : Build Started"
+    //currentBuild.displayName="${JOB_NAME}-${BUILD_NUMBER}"
+    def display_name = "${JOB_NAME}-${BUILD_NUMBER}"
+    display_name.replace("%2F", "-")
+    slackSend color: 'good', message: "${display_name} : Build Started"
     stage('Checkout') {
-        slackSend color: 'good', message: "${BUILD_DISPLAY_NAME} : Checking out source code"
+        slackSend color: 'good', message: "${display_name} : Checking out source code"
         checkout scm
     }
 
@@ -20,14 +22,18 @@ node {
         //       includes: '**'
     
         stage('Test') {
-            sh 'npm test'
+            try {
+                sh 'npm test'
+            } catch (err) {
+                currentBuild.result='FAILURE'
+            }
         }
         
     // } 
     if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-        slackSend color: 'good', message: "${BUILD_DISPLAY_NAME} : Build SUCCESS"
+        slackSend color: 'good', message: "${display_name} : Build SUCCESS"
     } else {
-        slackSend color: 'danger', message: "${BUILD_DISPLAY_NAME} : Build FAILURE"
+        slackSend color: 'danger', message: "${display_name} : Build FAILURE"
     }
 }
 
