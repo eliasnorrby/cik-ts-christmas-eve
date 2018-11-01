@@ -12,7 +12,7 @@ export class Santa {
     step(direction: string) {
         switch(direction) {
             case "^":
-                this.y += 1;
+                this.y += 2;
                 break;
             case ">":
                 this.x += 1;
