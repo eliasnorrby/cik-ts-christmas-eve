@@ -1,5 +1,6 @@
 node {
     //currentBuild.displayName="${JOB_NAME}-${BUILD_NUMBER}"
+    slackSend message: "=== === === New build started === === ==="
     def display_name = "${JOB_NAME}-${BUILD_NUMBER}"
     sh "echo initial display name: ${display_name}"
     display_name = display_name.replace("%2F", "-")
@@ -37,6 +38,7 @@ node {
     } else {
         slackSend color: 'danger', message: "${display_name} : Build FAILURE"
     }
+    slackSend message: "=== === === Build finished === === ==="
 }
 
 
