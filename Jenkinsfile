@@ -1,13 +1,13 @@
 node {
     slackSend color: 'good', message: 'Build Started'
-    stage 'Checkout' {
+    stage('Checkout') {
         slackSend color: 'good', message: 'Checking out source code'
         checkout scm
     }
 
     // Now running locally - npm should be available
     // nodejs('NodeJS 11.0.0') {
-        stage 'Pull dependencis' {
+        stage('Pull dependencis') {
             sh 'npm install'
         }
 
@@ -18,7 +18,7 @@ node {
         //       excludes: 'test-results/**', 
         //       includes: '**'
     
-        stage 'Test' {
+        stage('Test') {
             sh 'npm test'
         }
         
