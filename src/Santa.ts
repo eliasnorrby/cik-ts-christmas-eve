@@ -1,5 +1,3 @@
-import { Grid } from "./Grid";
-
 export class Santa {
     x: number
     y: number
