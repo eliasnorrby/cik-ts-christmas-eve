@@ -34,4 +34,28 @@ describe('ChristmasEve', () => {
         expect(christmasEve.grid.getTotalNumberOfGifts()).toBe(8193);
     })
 
+    describe('ChristmasWithRobots', () => {
+
+        it('should ...', () => {
+            let instructions = "^v^v";
+            expect(christmasEve.itsChristmasWithRobots(instructions)).toBe(5);
+        })
+
+        let casesWithRobots = [
+            { i: ">", n: 2},
+            { i: "^v", n: 3},
+            { i: "^>v<", n: 3},
+            { i: "^v^v^v^v^v", n: 11},
+            { i: instructions10, n: 10 },
+            { i: instructions25, n: 17 },
+            { i: instructions8k, n: 2360}
+        ]
+
+        casesWithRobots.forEach(({ i, n }) => {
+            it('should ...', () => {
+                expect(christmasEve.itsChristmasWithRobots(i)).toBe(n);
+            })
+        })
+    })
+
 })
