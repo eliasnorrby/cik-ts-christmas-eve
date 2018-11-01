@@ -1,6 +1,7 @@
 node {
-
+    slackSend color: 'good', message: 'Build Started'
     stage 'Checkout' {
+        slackSend color: 'good', message: 'Checking out source code'
         checkout scm
     }
 
@@ -21,7 +22,13 @@ node {
             sh 'npm test'
         }
         
-    // }     
+    // } 
+    if (currentBuild.result == 'SUCCESS') {
+        slackSend color: 'good', message: 'Build successful: ${JOB_NAME}-${BUILD_NUMBER}'
+    } 
+    if (currentBuild.result == 'FAILURE') {
+        slackSend color: 'danger', message: 'Build failure: ${JOB_NAME}-${BUILD_NUMBER}'
+    }
 }
 
 
