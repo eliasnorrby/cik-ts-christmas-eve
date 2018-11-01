@@ -1,30 +1,27 @@
-stage 'Checkout'
 node {
 
-    checkout scm
+    stage 'Checkout' {
+        checkout scm
+    }
 
-    nodejs('NodeJS 11.0.0') {
-        // pull dependencies from npm
-        sh 'npm install'
+    // Now running locally - npm should be available
+    // nodejs('NodeJS 11.0.0') {
+        stage 'Pull dependencis' {
+            sh 'npm install'
+        }
 
         // stash code & dependencies to expedite subsequent testing
         // and ensure same code & dependencies are used throughout the pipeline
         // stash is a temporary archive
-        stash name: 'everything', 
-              excludes: 'test-results/**', 
-              includes: '**'
+        // stash name: 'everything', 
+        //       excludes: 'test-results/**', 
+        //       includes: '**'
+    
+        stage 'Test' {
+            sh 'npm test'
+        }
         
-        // test with PhantomJS for "fast" "generic" results
-        // on windows use: bat 'npm run test-single-run -- --browsers PhantomJS'
-        // sh 'npm run test-single-run -- --browsers PhantomJS'
-        stage 'Test'
-        sh 'npm test'
-        
-        // archive karma test results (karma is configured to export junit xml files)
-        // step([$class: 'JUnitResultArchiver', 
-        //      testResults: 'test-results/**/test-results.xml'])
-    }
-          
+    // }     
 }
 
 
