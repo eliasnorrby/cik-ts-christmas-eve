@@ -23,7 +23,7 @@ node {
         }
         
     // } 
-    if (resultIsBetterOrEqualTo('SUCCESS')) {
+    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
         slackSend color: 'good', message: "Build SUCCESS: ${JOB_NAME}-${BUILD_NUMBER}"
     } else {
         slackSend color: 'danger', message: "Build FAILURE: ${JOB_NAME}-${BUILD_NUMBER}"
