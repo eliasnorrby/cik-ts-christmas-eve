@@ -1,16 +1,9 @@
 import { Santa } from "../src/Santa";
 
 describe('Santa', () => {
-    let mockGrid
     let santa: Santa
 
     beforeEach(() => {
-        mockGrid = {
-            visitHouseAt: (x, y) => {
-
-            }
-        }
-        
         santa = new Santa();
     })
 
